@@ -22,8 +22,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * A native method that is implemented by the 'native-lib' native library,
+     * A native method that is implement
+     * ed by the 'native-lib' native library,
      * which is packaged with this application.
      */
     public native String stringFromJNI();
+    public native static void set(int i);
+    public native static int get();
 }
