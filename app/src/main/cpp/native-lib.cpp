@@ -4,6 +4,7 @@
 #include <string.h>
 #include <android/log.h>
 #define LOG_TAG "System.out"
+
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 
@@ -84,4 +85,29 @@ Java_com_example_administrator_myjnitest_MainActivity_getsum(JNIEnv *env, jobjec
     }
     return sum;
 
+}extern "C"
+JNIEXPORT jobjectArray JNICALL
+Java_com_example_administrator_myjnitest_MainActivity_getArr(JNIEnv *env, jobject instance) {
+
+    // 声明一个object的数组
+    jobjectArray  args = 0;
+
+    //数组大小
+    jsize len = 5;
+
+
+    //获取object所属类,一般为java/lang/Object就可以了
+    jclass obj = env->FindClass("java/lang/Object");
+    jclass student = env->FindClass("com/example/administrator/myjnitest/Student");
+    args = env->NewObjectArray(len,student,0);
+    jmethodID  m_mid_stu = env->GetMethodID(student, "<init>", "()V");
+    jfieldID  str_name = env->GetFieldID(student,"name","Ljava/lang/String;");
+    jfieldID  str_age = env->GetFieldID(student,"age","I");
+    for(int i=0;i<len;i++){
+        jobject stu_1 = env->NewObject(student,m_mid_stu);
+        env->SetObjectField(stu_1,str_name,env->NewStringUTF("student"));
+        env->SetIntField(stu_1,str_age,10+i);
+        env->SetObjectArrayElement(args,i,stu_1);
+    }
+    return args;
 }
