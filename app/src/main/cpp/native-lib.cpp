@@ -91,11 +91,8 @@ Java_com_example_administrator_myjnitest_MainActivity_getArr(JNIEnv *env, jobjec
 
     // 声明一个object的数组
     jobjectArray  args = 0;
-
     //数组大小
     jsize len = 5;
-
-
     //获取object所属类,一般为java/lang/Object就可以了
     jclass obj = env->FindClass("java/lang/Object");
     jclass student = env->FindClass("com/example/administrator/myjnitest/Student");
@@ -110,4 +107,13 @@ Java_com_example_administrator_myjnitest_MainActivity_getArr(JNIEnv *env, jobjec
         env->SetObjectArrayElement(args,i,stu_1);
     }
     return args;
+}
+//JNI调用java中的静态类
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_administrator_myjnitest_MainActivity_callMethod(JNIEnv *env, jobject instance) {
+    LOGI("now begin to call the java static method");
+    jclass class_method = env->FindClass("com/example/administrator/myjnitest/MainActivity");
+    jmethodID  md = env->GetStaticMethodID(class_method,"JNIcallJava","()V");
+    env->CallStaticVoidMethod(class_method,md);
 }

@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button button_data2;
     private Button button_data3;
     private Button button_data4;
+    private Button button_data5;
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
@@ -27,12 +28,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button_data2 = findViewById(R.id.button_data2);
         button_data3 = findViewById(R.id.button_data3);
         button_data4 = findViewById(R.id.button_data4);
+        button_data5 = findViewById(R.id.button_data5);
 
 
         button_data1.setOnClickListener(this);
         button_data2.setOnClickListener(this);
         button_data3.setOnClickListener(this);
         button_data4.setOnClickListener(this);
+        button_data5.setOnClickListener(this);
 
     }
 
@@ -67,8 +70,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.i("student----",students[i].getName());
                 }
                 break;
+            case R.id.button_data5:
+                callMethod();
+                break;
 
         }
+    }
+    public static void  JNIcallJava(){
+        Log.i("test class","when you have seen this you are sucess");
     }
 
     public native String stringFromJNI();
@@ -76,5 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public native String getString(String str);
     public native String[] getArray();
     public native int getsum(int[] arr);
+
     public native Object[] getArr();
+    public native  void callMethod();
+
 }
