@@ -61,4 +61,15 @@
         android:text="JNI调用java的静态类"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_data4" />
+
+    <Button
+        android:id="@+id/button_data6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="jni操作java字符串"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_data5" />
 </android.support.constraint.ConstraintLayout>
