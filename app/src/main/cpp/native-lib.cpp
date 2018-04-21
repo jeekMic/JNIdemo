@@ -29,6 +29,7 @@ Java_com_example_administrator_myjnitest_MainActivity_getint(JNIEnv *env, jobjec
     // TODO
     jint m = 0;
     m = a+b;
+    printf("--------------------hahaha");
     return m;
 
 
@@ -44,6 +45,7 @@ Java_com_example_administrator_myjnitest_MainActivity_getString(JNIEnv *env, job
         }
     }
     LOGD("----",str);
+
     // TODO
     env->ReleaseStringUTFChars(str_, str);
 

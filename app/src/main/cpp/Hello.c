@@ -5,7 +5,12 @@
 #include <jni.h>
 #include <string.h>
 #include <malloc.h>
-
+#include <android/log.h>
+#define LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG,__VA_ARGS__) // 定义LOGD类型
+#define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG,__VA_ARGS__) // 定义LOGI类型
+#define LOGW(...)  __android_log_print(ANDROID_LOG_WARN,LOG,__VA_ARGS__) // 定义LOGW类型
+#define LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG,__VA_ARGS__) // 定义LOGE类型
+#define LOGF(...)  __android_log_print(ANDROID_LOG_FATAL,LOG,__VA_ARGS__) // 定义LOGF类型
 char* _JString2CStr(JNIEnv *env, jstring jstr){
     char* rtn = NULL;
     //找到java中的String这个类
@@ -54,3 +59,66 @@ JNIEXPORT jstring JNICALL Java_com_example_administrator_myjnitest_JNI_sayHello(
     strcat(fromjava,fromC);
     return (*env)->NewStringUTF(env,fromjava);
 }
+/**
+ * 给每个元素加上10
+ * @param env
+ * @param job
+ * @param jarray
+ * @return
+ */
+JNIEXPORT jintArray JNICALL Java_com_example_administrator_myjnitest_JNI_increaseArratEls(JNIEnv *env, jobject job, jintArray jarray){
+    //1,得到数组长度
+    //size
+    jint size = (*env)->GetArrayLength(env,jarray);
+    int a;
+    //2，得到数组
+    jint  *intArray = (*env)->GetIntArrayElements(env,jarray,JNI_FALSE);
+    //3，遍历数组,给每个数组加上10
+    int i;
+    int k = 10;
+    for(i=0;i<size;i++){
+        *(intArray+i) += k;
+        a = *(intArray+i);
+    }
+
+    //返回结果
+    return jarray;
+
+}
+JNIEXPORT jint JNICALL Java_com_example_administrator_myjnitest_JNI_checkPwd(JNIEnv *env, jobject jobj, jstring jstr){
+    char *origin = "123456";
+    char *fromUser = _JString2CStr(env,jstr);
+    //函数比较字符串是否相等
+    int code = strcmp(origin,fromUser);
+    if(code==0){
+        return 200;
+    } else{
+        return 400;
+    }
+}
+//c调用java代码
+JNIEXPORT void JNICALL Java_com_example_administrator_myjnitest_JNI_callbackAdd(JNIEnv *env, jobject obj){
+    /**
+     *  1，获得java字节码也就是jclass 一般是都是 FindClass
+     *   jclass      (*FindClass)(JNIEnv*, const char*);
+     */
+
+    jclass jclassz = (*env)->FindClass(env,"com/example/administrator/myjnitest/JNI");
+    /*
+      * 2，获得方法 也就是jmethodID
+      *  jmethodID   (*GetMethodID)(JNIEnv*, jclass, const char*, const char*);
+     */
+     jmethodID jmethodIDs = (*env)->GetMethodID(env,jclassz,"addnumber","(II)I");
+
+     /*
+      * 3实例化类
+      */
+     jobject jobject = (*env)->AllocObject(env,jclassz);
+    /**
+     * 调用方法
+     * jint        (*CallIntMethod)(JNIEnv*, jobject, jmethodID, ...);
+     */
+    int m = 10;
+
+    (*env)->CallIntMethod(env, jobject,jmethodIDs, 8,9);
+ }
